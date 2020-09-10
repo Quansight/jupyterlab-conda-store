@@ -28,11 +28,6 @@ jobs:
         jlpm
         jlpm run eslint:check
 
-        pip install .
-        jupyter lab build
-        jupyter serverextension list 1>serverextensions 2>&1
-        cat serverextensions | grep "jupyter_conda_store.*OK"
-        jupyter labextension list 1>labextensions 2>&1
-        cat labextensions | grep "jupyter-conda-store.*OK"
+        jupyter labextension install .
 
         python -m jupyterlab.browser_check

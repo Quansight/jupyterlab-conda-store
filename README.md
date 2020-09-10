@@ -2,12 +2,8 @@
 
 ![Github Actions Status](https://github.com/my_name/myextension/workflows/Build/badge.svg)
 
-A JupyterLab Extension to use conda-store from within JupyterLab.
+A JupyterLab Extension meant for conda-store
 
-
-This extension is composed of a Python package named `jupyter_conda_store`
-for the server extension and a NPM package named `jupyter-conda-store`
-for the frontend extension.
 
 
 ## Requirements
@@ -16,34 +12,8 @@ for the frontend extension.
 
 ## Install
 
-Note: You will need NodeJS to install the extension.
-
 ```bash
-pip install jupyter_conda_store
-jupyter lab build
-```
-
-## Troubleshoot
-
-If you are seeing the frontend extension but it is not working, check
-that the server extension is enabled:
-
-```bash
-jupyter serverextension list
-```
-
-If the server extension is installed and enabled but you are not seeing
-the frontend, check the frontend is installed:
-
-```bash
-jupyter labextension list
-```
-
-If it is installed, try:
-
-```bash
-jupyter lab clean
-jupyter lab build
+jupyter labextension install jupyter-conda-store
 ```
 
 ## Contributing
@@ -57,11 +27,6 @@ The `jlpm` command is JupyterLab's pinned version of
 ```bash
 # Clone the repo to your local environment
 # Move to jupyter-conda-store directory
-
-# Install server extension
-pip install -e .
-# Register server extension
-jupyter serverextension enable --py jupyter_conda_store --sys-prefix
 
 # Install dependencies
 jlpm
@@ -89,6 +54,6 @@ Now every change will be built locally and bundled into JupyterLab. Be sure to r
 ### Uninstall
 
 ```bash
-pip uninstall jupyter_conda_store
+
 jupyter labextension uninstall jupyter-conda-store
 ```
