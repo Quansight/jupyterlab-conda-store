@@ -8,12 +8,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
  * _where_ conda store is running, allowing me to query the API
  */
 
-
 const NavBar = () => {
 function connectBackend() {
-	fetch('http://localhost:5001/api/v1/environment')
+	fetch('http://localhost:5001/api/v1/environment/')
 		.then((response) => {
-			console.log(response); 
+			console.log(response.json()); 
 		})
 }
 	return(
@@ -24,7 +23,8 @@ function connectBackend() {
   <Navbar.Collapse id="basic-navbar-nav">
     <Nav className="mr-auto">
       <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#link">Create</Nav.Link>
+	      <Nav.Link href="#link">Create Environment</Nav.Link>
+	      <Nav.Link href="#kernel">Manage Kernels</Nav.Link>
       <NavDropdown title="Server" id="basic-nav-dropdown">
 	      <NavDropdown.Item href="#action/3.1" onClick={ () => { connectBackend() }}>Localhost</NavDropdown.Item>
 	<NavDropdown.Item href="#action/3.2">The Cloud</NavDropdown.Item>
