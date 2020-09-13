@@ -10,10 +10,12 @@ import {
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import {
-  Widget,
   Menu
 } from '@lumino/widgets';
 
+import { CondaStoreWidget } from './components/widget';
+
+import 'bootstrap/dist/css/bootstrap.css';
 /**
  * Initialization data for the jupyter-conda-store extension.
  */
@@ -24,21 +26,21 @@ const plugin: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, 
 	     palette: ICommandPalette, 
 	     mainMenu: IMainMenu) => {
-    const content = new Widget();
-    const widget = new MainAreaWidget({ content });
-    widget.id = 'conda-store-jupyterlab';
-    widget.title.label = 'Conda Store';
-    widget.title.closable = true; 
-
+     
    const { commands } =  app;
    //Add menu commands
    const commandOpen  = 'conda-store:open';
+   
    const commandRefresh = 'conda-store:refresh';
-
    // This command adds an option to launch the window
    commands.addCommand(commandOpen, {
     label: 'Launch Conda Store',
     execute: () => {
+    const content = new CondaStoreWidget();
+    const widget = new MainAreaWidget<CondaStoreWidget>({ content });
+    widget.id = 'conda-store-jupyterlab';
+    widget.title.label = 'Conda Store';
+    widget.title.closable = true; 
       if (!widget.isAttached) {
         app.shell.add(widget, 'main');
       }
