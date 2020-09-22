@@ -1,26 +1,60 @@
 //import 'bootstrap/dist/css/bootstrap.css';
 import { ReactWidget } from '@jupyterlab/apputils';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import NavBar from './NavBar';
+import { IEnv } from './interfaces';
 
 /**
  * React component for a counter.
  *
  * @returns The React component
  */
-const CounterComponent = (): JSX.Element => {
-  const [counter, setCounter] = useState(0);
+const CardGroupComponent = () => {
+  const [envdata, setEnvdata] = useState();
+
+  function mapEnvs(data: any) {
+	 var env_arr: IEnv[] = [];   
+	 data.map(function(val: any)  {
+		 env_arr.push({ 
+			 name: val.name,
+			 build_id: val.build_id,
+			 size: val.size,
+			 specification: val.spec_sha256,
+			 store_path: val.store_path
+		 });
+
+	 });
+	 return env_arr;
+}
+
+  async function getEnvData() {
+	const response = await fetch('http://localhost:5001/api/v1/environment/')
+	const jsondata = await response.json();
+	setEnvdata(jsondata);
+  }
+
+ function mapEnvironments() {
+	const mapped = mapEnvs((envdata));
+	console.log(mapped);
+ }
 
   return (
     <div>
-      <p>You clicked {counter} times!</p>
       <button
         onClick={(): void => {
-          setCounter(counter + 1);
+          getEnvData()
         }}
       >
-        Increment
+        Get Data
       </button>
+     <button
+        onClick={(): void => {
+         mapEnvironments() 
+        }}
+      >
+        Set Envs
+      </button>
+
     </div>
   );
 };
@@ -37,11 +71,11 @@ export class CondaStoreWidget extends ReactWidget {
     this.addClass('jp-ReactWidget');
   }
 
-  render(): JSX.Element {
+  render(): ReactElement {
 	  return(
 		  <div>
 			  <NavBar/>
-			  <CounterComponent />
+			  <CardGroupComponent />
 		  </div>
 	  );
   }
