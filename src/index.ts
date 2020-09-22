@@ -4,7 +4,7 @@ import {
 } from '@jupyterlab/application';
 
 import {
-  ICommandPalette, MainAreaWidget
+  ICommandPalette
 } from '@jupyterlab/apputils';
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
@@ -12,7 +12,7 @@ import {
   Menu
 } from '@lumino/widgets';
 
-import { CondaStoreWidget } from './components/widget';
+import CondaStoreWidget from './components/widget';
 
 import 'bootstrap/dist/css/bootstrap.css';
 /**
@@ -33,13 +33,11 @@ const plugin: JupyterFrontEndPlugin<void> = {
    
    const commandRefresh = 'conda-store:refresh';
    // This command adds an option to launch the window
-    const content = new CondaStoreWidget();
-    const widget = new MainAreaWidget<CondaStoreWidget>({ content });
-    widget.id = 'conda-store-jupyterlab';
-    widget.title.label = 'Conda Store';
-    widget.title.closable = true; 
-    shell.add(widget, 'left'); 
-    shell.activateById(widget.id);
+    CondaStoreWidget.id = 'conda-store-jupyterlab';
+    CondaStoreWidget.title.label = 'Conda Store';
+    CondaStoreWidget.title.closable = true; 
+    shell.add(CondaStoreWidget, 'left'); 
+    shell.activateById(CondaStoreWidget.id);
 
    
    // TODO: Add an option to manually trigger a refresh of the kernel launcher.

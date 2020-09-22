@@ -1,6 +1,7 @@
 //import 'bootstrap/dist/css/bootstrap.css';
 import { ReactWidget } from '@jupyterlab/apputils';
-import React, { ReactElement, useState } from 'react';
+import { Widget } from '@lumino/widgets';
+import React, { useState } from 'react';
 import NavBar from './NavBar';
 import { IEnv } from './interfaces';
 
@@ -62,21 +63,10 @@ const CardGroupComponent = () => {
 /**
  * A Counter Lumino Widget that wraps a CounterComponent.
  */
-export class CondaStoreWidget extends ReactWidget {
-  /**
-   * Constructs a new CounterWidget.
-   */
-  constructor() {
-    super();
-    this.addClass('jp-ReactWidget');
-  }
 
-  render(): ReactElement {
-	  return(
-		  <div>
-			  <NavBar/>
+const CondaStoreWidget: Widget = ReactWidget.create(<div>
+  <NavBar/>
 			  <CardGroupComponent />
-		  </div>
-	  );
-  }
-}
+		  </div>);
+
+export default CondaStoreWidget;
