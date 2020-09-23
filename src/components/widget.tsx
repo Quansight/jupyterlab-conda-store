@@ -1,7 +1,7 @@
 //import 'bootstrap/dist/css/bootstrap.css';
 import { ReactWidget } from '@jupyterlab/apputils';
 import { Widget } from '@lumino/widgets';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar';
 import { IEnv } from './interfaces';
 import CondaCard from './CondaCard';
@@ -17,7 +17,7 @@ import Col from 'react-bootstrap/Col';
 const CardGroupComponent = () => {
   const [envdata, setEnvdata] = useState(null);
   const [showCondaCards, setShowCondaCards] = useState(false);
-
+  /*
   function mapEnvs(data: any) {
     var env_arr: IEnv[] = [];
     data.map(function (val: any) {
@@ -31,45 +31,19 @@ const CardGroupComponent = () => {
     });
     return env_arr;
   }
-
-  async function getEnvData() {
-    const response = await fetch('http://localhost:5001/api/v1/environment/');
-    const jsondata = await response.json();
-    setEnvdata(jsondata);
-  }
-
-  function mapEnvironments() {
-    const mapped = mapEnvs(envdata);
-    console.log(mapped);
-  }
-
-  function mapEnvsToCards() {
-    setShowCondaCards(true);
-  }
+ 		 */
+  useEffect(() => {
+    const renderCondaCards = async () => {
+      const response = await fetch('http://localhost:5001/api/v1/environment/');
+      const jsondata = await response.json();
+      setEnvdata(jsondata);
+      setShowCondaCards(true);
+    };
+    renderCondaCards();
+  });
 
   return (
     <div>
-      <button
-        onClick={(): void => {
-          getEnvData();
-        }}
-      >
-        Get Data
-      </button>
-      <button
-        onClick={(): void => {
-          mapEnvironments();
-        }}
-      >
-        Set Envs
-      </button>
-      <button
-        onClick={(): void => {
-          mapEnvsToCards();
-        }}
-      >
-        Set Cards
-      </button>
       {showCondaCards
         ? envdata.map((envData: IEnv) => (
             <Row>
