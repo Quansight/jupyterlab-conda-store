@@ -5,6 +5,10 @@ import React, { useState } from 'react';
 import NavBar from './NavBar';
 import { IEnv } from './interfaces';
 import CondaCard from './CondaCard';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 
 /**
  * React component for a counter.
@@ -13,7 +17,7 @@ import CondaCard from './CondaCard';
  */
 const CardGroupComponent = () => {
 	const [envdata, setEnvdata] = useState(null);
-	const [condaCardData, setcondaCardData] = useState(false); 
+	const [showCondaCards, setShowCondaCards] = useState(false); 
 
   function mapEnvs(data: any) {
 	 var env_arr: IEnv[] = [];   
@@ -42,7 +46,7 @@ const CardGroupComponent = () => {
  }
 
 function mapEnvsToCards() {
-	setcondaCardData(true);
+	setShowCondaCards(true);
 	}
 
   return (
@@ -68,7 +72,7 @@ function mapEnvsToCards() {
       >
         Set Cards
       </button>
-	      { condaCardData ? <CondaCard props={envdata[0]}/> : null }
+	      { showCondaCards ? envdata.map((envData: IEnv) => <Row> <CondaCard envInfo={envData}/> </Row>) : null }
 	</div>
   );
 };
@@ -79,7 +83,16 @@ function mapEnvsToCards() {
 
 const CondaStoreWidget: Widget = ReactWidget.create(<div>
   <NavBar/>
-			  <CardGroupComponent />
+	  		<Container fluid>
+  <Row>
+
+	  <Col sm={2}></Col>
+	  <Col sm={8}>
+		  <CardGroupComponent />
+			  </Col>
+	 <Col sm={2}></Col>
+		  </Row>
+			  </Container>
 		  </div>);
 
 export default CondaStoreWidget;
