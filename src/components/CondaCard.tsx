@@ -9,9 +9,9 @@
 
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import { IEnv } from './interfaces';
+//import { IEnv } from './interfaces';
 
-const CondaCard = (props: IEnv) => {
+const CondaCard = (props: any) => {
 	return(
 <Card style={{ width: '18rem' }}>
   <Card.Body>

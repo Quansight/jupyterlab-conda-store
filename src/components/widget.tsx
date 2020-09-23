@@ -4,6 +4,7 @@ import { Widget } from '@lumino/widgets';
 import React, { useState } from 'react';
 import NavBar from './NavBar';
 import { IEnv } from './interfaces';
+import CondaCard from './CondaCard';
 
 /**
  * React component for a counter.
@@ -11,7 +12,8 @@ import { IEnv } from './interfaces';
  * @returns The React component
  */
 const CardGroupComponent = () => {
-  const [envdata, setEnvdata] = useState();
+	const [envdata, setEnvdata] = useState(null);
+	const [condaCardData, setcondaCardData] = useState(false); 
 
   function mapEnvs(data: any) {
 	 var env_arr: IEnv[] = [];   
@@ -39,6 +41,10 @@ const CardGroupComponent = () => {
 	console.log(mapped);
  }
 
+function mapEnvsToCards() {
+	setcondaCardData(true);
+	}
+
   return (
     <div>
       <button
@@ -55,8 +61,15 @@ const CardGroupComponent = () => {
       >
         Set Envs
       </button>
-
-    </div>
+     <button
+        onClick={(): void => {
+         mapEnvsToCards() 
+        }}
+      >
+        Set Cards
+      </button>
+	      { condaCardData ? <CondaCard props={envdata[0]}/> : null }
+	</div>
   );
 };
 
