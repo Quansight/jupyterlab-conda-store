@@ -21,7 +21,7 @@ const CardGroupComponent = (props: any) => {
 
   useEffect(() => {
     const renderCondaCards = async () => {
-      const response = await fetch('http://localhost:5001/api/v1/environment/');
+      const response = await fetch(props.url);
       const jsondata = await response.json();
       setEnvdata(jsondata);
       setShowCondaCards(true);
@@ -43,10 +43,11 @@ const CardGroupComponent = (props: any) => {
 };
 
 /**
- * A Counter Lumino Widget that wraps a CounterComponent.
+ * The main widget. Server Data will be queried from some settings, maybe?
  */
 const HomeArea = () => {
   const [serverAddress, setServerAddress] = useState(null); // Server Address String.
+
   const servers = [
     {
       url: 'http://localhost:5001/api/v1/environment/',
@@ -61,26 +62,30 @@ const HomeArea = () => {
   function handleServerSelect(e: any) {
     e.preventDefault(); //Prevent a reload
     //TODO: Find a way to figure out which index was selected
-    //TODO: Write script to check connections
+    //TODO: Write script to check connections - for now, assuming connection
     setServerAddress(servers[0].url);
   }
 
   return (
-    <div>
+    <div className="overflow-auto">
       <NavBar />
       <Container fluid>
-        {serverAddress ? null : <p> jello </p>}
-        <BackendSelector
-          handleServerSelect={handleServerSelect}
-          serverConnectionData={servers}
-        />
-        <Row>
-          <Col sm={2}></Col>
-          <Col sm={8}>
-            <CardGroupComponent serverEnvironments={serverAddress || null} />
-          </Col>
-          <Col sm={2}></Col>
-        </Row>
+        // If server is not set, redirect to the selector
+        {serverAddress ? (
+          <Row>
+            <Col xs={6} md={4}>
+              <CardGroupComponent url={serverAddress} />
+            </Col>
+          </Row>
+        ) : (
+          <div>
+            <h1> Please Select the appropriate conda-store server </h1>
+            <BackendSelector
+              handleServerSelect={handleServerSelect}
+              serverConnectionData={servers}
+            />
+          </div>
+        )}
       </Container>
     </div>
   );
