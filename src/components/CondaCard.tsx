@@ -23,7 +23,7 @@ const CondaCard = (props: any) => {
   return (
     <Card
       style={{
-        width: '18rem',
+        width: '24rem',
         marginTop: '2rem',
         marginBottom: '2rem',
       }}
@@ -39,19 +39,19 @@ const CondaCard = (props: any) => {
         </Card.Text>
       </Card.Body>
       <Card.Footer>
-        <ButtonToolbar className="mb-2 ml-3 mr-3 justify-content-between">
-          <Button variant="primary">
+        <ButtonToolbar className="mb-2 ml-5 mr-5 justify-content-between">
+          <Button variant="primary" onClick={ (e) => props.handleEditEnvClick(e) }>
             <FontAwesomeIcon icon={faEdit} /> Edit
           </Button>{' '}
           <Button variant="outline-primary">
             Display <FontAwesomeIcon icon={faCog} />
           </Button>{' '}
         </ButtonToolbar>
-        <ButtonToolbar className="mb-2 ml-3 mr-3 justify-content-between">
-          <Button variant="info">
+        <ButtonToolbar className="mb-2 ml-5 mr-5 justify-content-between">
+          <Button variant="info" onClick={ (e) => props.handleInfoClick(e) }>
             <FontAwesomeIcon icon={faInfoCircle} /> Info
           </Button>{' '}
-          <Button variant="secondary">
+          <Button variant="secondary" onClick={ (e) => props.handleImageClick(e) }>
             <FontAwesomeIcon icon={faFileArchive} /> Images
           </Button>{' '}
         </ButtonToolbar>

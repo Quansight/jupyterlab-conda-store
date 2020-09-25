@@ -9,12 +9,17 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import '../../style/widget.css';
 import BackendSelector from './backendSelector';
 import CardGroupComponent from './CardGroup';
+import EnvironmentEditorPanel from './EnvironmentEditorPanel';
 
 /**
  * The main widget. Server Data will be queried from some settings, maybe?
  */
 const HomeArea = () => {
   const [serverAddress, setServerAddress] = useState(null); // Server Address String.
+  const [toggleEnvironment, setToggleEnvironment] = useState(false); // Show/Hide the Env Edit Panel
+  const [toggleInfo, setToggleInfo] = useState(false); 
+  const [toggleCondaCards, setToggleCondaCards] = useState(true);
+  const [toggleImage, setToggleImage] = useState(false);
 
   const servers = [
     {
@@ -35,8 +40,40 @@ const HomeArea = () => {
   }
 
   /*
+   * Handles the edit environment button click
+   */
+   function handleEditEnv(e: any) {
+    e.preventDefault(); //Prevent a reload
+    setToggleEnvironment(true);//
+    setToggleCondaCards(false); 
+   }
+
+  /*
    * Handles a click on "Build Specification"
    */
+   function handleInfoClick(e: any) {
+    e.preventDefault(); //Prevent a reload
+    setToggleInfo(true); //
+   }
+
+  /*
+   * Handles a click on Image
+   */
+  function handleImageClick(e: any){
+    e.preventDefault(); //Prevent a reload
+    setToggleImage(true); 
+  }
+
+  /*
+   * Handles a "Cancel"
+   */
+  function handleCancel(e: any){
+    e.preventDefault();
+    setToggleImage(false);
+    setToggleInfo(false);
+    setToggleEnvironment(false);
+    setToggleCondaCards(true);
+      }
 
   return (
     <div>
@@ -44,11 +81,27 @@ const HomeArea = () => {
         <div>
           <NavBar />
           <Container fluid style={{ height: '100vh' }}>
-            <Row className="justify-content-center align-items-center">
-              <Col sm={6} md={8} className="my-auto">
-                <CardGroupComponent url={serverAddress} />
+	  {toggleCondaCards ? (
+            <Row className="justify-content-center align-items-center" style={{ height: '100vh' }}>
+              <Col xs={6} sm={6} md={6} className="mx-auto">
+	      <CardGroupComponent 
+			      url={serverAddress}
+	      		      handleEditEnvClick={handleEditEnv}
+	      		      handleInfoClick={handleInfoClick}
+	      		      handleImageClick={handleImageClick}
+	      />
               </Col>
-            </Row>
+            </Row> ) : null}
+
+	  {toggleEnvironment ? (
+		    <div>
+			    <EnvironmentEditorPanel
+		  	      handleCancelClick={handleCancel}
+			    />
+		        			</div>
+		    ) : null}
+				{toggleInfo ? (<div></div>) : null}
+					{toggleImage ? (<div></div>) : null}
           </Container>
         </div>
       ) : (
