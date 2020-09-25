@@ -1,46 +1,14 @@
 import { ReactWidget } from '@jupyterlab/apputils';
 import { Widget } from '@lumino/widgets';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import NavBar from './NavBar';
-import { IEnv } from './interfaces';
-import CondaCard from './CondaCard';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 import '../../style/widget.css';
 import BackendSelector from './backendSelector';
-
-/**
- * React component for a counter.
- *
- * @returns The React component
- */
-const CardGroupComponent = (props: any) => {
-  const [envdata, setEnvdata] = useState(null);
-  const [showCondaCards, setShowCondaCards] = useState(false);
-
-  useEffect(() => {
-    const renderCondaCards = async () => {
-      const response = await fetch(props.url);
-      const jsondata = await response.json();
-      setEnvdata(jsondata);
-      setShowCondaCards(true);
-    };
-    renderCondaCards();
-  }, []);
-
-  return (
-    <div>
-      {showCondaCards
-        ? envdata.map((envData: IEnv) => (
-            <Row>
-              <CondaCard envInfo={envData} />
-            </Row>
-          ))
-        : null}
-    </div>
-  );
-};
+import CardGroupComponent from './CardGroup';
 
 /**
  * The main widget. Server Data will be queried from some settings, maybe?
@@ -50,8 +18,8 @@ const HomeArea = () => {
 
   const servers = [
     {
+      display_name: 'Localhost',
       url: 'http://localhost:5001/api/v1/environment/',
-      name: 'Local',
     },
     {},
   ];
@@ -66,30 +34,46 @@ const HomeArea = () => {
     setServerAddress(servers[0].url);
   }
 
+  /*
+   * Handles a click on "Build Specification"
+   */
+
   return (
-    <div className="overflow-auto">
-      <NavBar />
-      <Container fluid>
-        // If server is not set, redirect to the selector
-        {serverAddress ? (
-          <Row>
-            <Col xs={6} md={4}>
-              <CardGroupComponent url={serverAddress} />
+    <div>
+      {serverAddress ? (
+        <div>
+          <NavBar />
+          <Container fluid style={{ height: '100vh' }}>
+            <Row className="justify-content-center align-items-center">
+              <Col sm={6} md={8} className="my-auto">
+                <CardGroupComponent url={serverAddress} />
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      ) : (
+        <Container fluid style={{ height: '100vh' }}>
+          <Row
+            className="justify-content-center align-items-center"
+            style={{ height: '100vh' }}
+          >
+            <Col xs={4} sm={6} md={8} className="my-auto">
+              <Jumbotron>
+                <h1> Welcome to Conda-Store </h1>
+                <h3> The one-stop-shop to manage environments! </h3>
+                <BackendSelector
+                  handleServerSelect={handleServerSelect}
+                  serverConnectionData={servers}
+                />
+              </Jumbotron>
             </Col>
           </Row>
-        ) : (
-          <div>
-            <h1> Please Select the appropriate conda-store server </h1>
-            <BackendSelector
-              handleServerSelect={handleServerSelect}
-              serverConnectionData={servers}
-            />
-          </div>
-        )}
-      </Container>
+        </Container>
+      )}
     </div>
   );
 };
+
 const CondaStoreWidget: Widget = ReactWidget.create(
   <div>
     <HomeArea />

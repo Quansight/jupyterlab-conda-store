@@ -8,5 +8,5 @@
   text-align: center;
 }*/
 .scrollable {
-	overflow: auto;
+	overflow-y: auto;
 }
