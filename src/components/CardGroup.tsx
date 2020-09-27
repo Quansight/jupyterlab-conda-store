@@ -24,11 +24,15 @@ const CardGroupComponent = (props: any) => {
   return (
     <div>
       {showCondaCards
-	    ? envdata.map((envData: IEnv) => <CondaCard envInfo={envData} 
-	    						handleEditEnvClick={props.handleEditEnvClick}
-		    					handleInfoClick={props.handleInfoClick}
-		    					handleImageClick={props.handleImageClick}
-		    />)
+        ? envdata.map((envData: IEnv) => (
+            <CondaCard
+              envInfo={envData}
+              handleBuildClick={props.handleBuildClick}
+              handleEditEnvClick={props.handleEditEnvClick}
+              handleInfoClick={props.handleInfoClick}
+              handleImageClick={props.handleImageClick}
+            />
+          ))
         : null}
     </div>
   );

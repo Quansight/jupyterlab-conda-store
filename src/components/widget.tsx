@@ -17,14 +17,16 @@ import EnvironmentEditorPanel from './EnvironmentEditorPanel';
 const HomeArea = () => {
   const [serverAddress, setServerAddress] = useState(null); // Server Address String.
   const [toggleEnvironment, setToggleEnvironment] = useState(false); // Show/Hide the Env Edit Panel
-  const [toggleInfo, setToggleInfo] = useState(false); 
+  const [toggleInfo, setToggleInfo] = useState(false);
   const [toggleCondaCards, setToggleCondaCards] = useState(true);
   const [toggleImage, setToggleImage] = useState(false);
+  const [environmentHash, setEnvironmentHash] = useState('');
 
   const servers = [
     {
       display_name: 'Localhost',
       url: 'http://localhost:5001/api/v1/environment/',
+      url_specification: 'http://localhost:5001/api/v1/specification/',
     },
     {},
   ];
@@ -40,40 +42,47 @@ const HomeArea = () => {
   }
 
   /*
+   * Handles setting the current environment hash value
+   */
+  function handleBuildClick(build_sha: string) {
+    setEnvironmentHash(build_sha);
+  }
+
+  /*
    * Handles the edit environment button click
    */
-   function handleEditEnv(e: any) {
+  function handleEditEnv(e: any) {
     e.preventDefault(); //Prevent a reload
-    setToggleEnvironment(true);//
-    setToggleCondaCards(false); 
-   }
+    setToggleEnvironment(true); //
+    setToggleCondaCards(false);
+  }
 
   /*
    * Handles a click on "Build Specification"
    */
-   function handleInfoClick(e: any) {
+  function handleInfoClick(e: any) {
     e.preventDefault(); //Prevent a reload
     setToggleInfo(true); //
-   }
+  }
 
   /*
    * Handles a click on Image
    */
-  function handleImageClick(e: any){
+  function handleImageClick(e: any) {
     e.preventDefault(); //Prevent a reload
-    setToggleImage(true); 
+    setToggleImage(true);
   }
 
   /*
    * Handles a "Cancel"
    */
-  function handleCancel(e: any){
+  function handleCancel(e: any) {
     e.preventDefault();
     setToggleImage(false);
     setToggleInfo(false);
     setToggleEnvironment(false);
     setToggleCondaCards(true);
-      }
+  }
 
   return (
     <div>
@@ -81,27 +90,34 @@ const HomeArea = () => {
         <div>
           <NavBar />
           <Container fluid style={{ height: '100vh' }}>
-	  {toggleCondaCards ? (
-            <Row className="justify-content-center align-items-center" style={{ height: '100vh' }}>
-              <Col xs={6} sm={6} md={6} className="mx-auto">
-	      <CardGroupComponent 
-			      url={serverAddress}
-	      		      handleEditEnvClick={handleEditEnv}
-	      		      handleInfoClick={handleInfoClick}
-	      		      handleImageClick={handleImageClick}
-	      />
-              </Col>
-            </Row> ) : null}
+            {toggleCondaCards ? (
+              <Row
+                className="justify-content-center align-items-center"
+                style={{ height: '100vh' }}
+              >
+                <Col xs={6} sm={6} md={6} className="mx-auto">
+                  <CardGroupComponent
+                    url={serverAddress}
+                    handleBuildClick={handleBuildClick}
+                    handleEditEnvClick={handleEditEnv}
+                    handleInfoClick={handleInfoClick}
+                    handleImageClick={handleImageClick}
+                  />
+                </Col>
+              </Row>
+            ) : null}
 
-	  {toggleEnvironment ? (
-		    <div>
-			    <EnvironmentEditorPanel
-		  	      handleCancelClick={handleCancel}
-			    />
-		        			</div>
-		    ) : null}
-				{toggleInfo ? (<div></div>) : null}
-					{toggleImage ? (<div></div>) : null}
+            {toggleEnvironment ? (
+              <div>
+                <EnvironmentEditorPanel
+                  url={servers[0].url_specification}
+                  hash={environmentHash}
+                  handleCancelClick={handleCancel}
+                />
+              </div>
+            ) : null}
+            {toggleInfo ? <div></div> : null}
+            {toggleImage ? <div></div> : null}
           </Container>
         </div>
       ) : (

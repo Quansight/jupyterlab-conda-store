@@ -40,7 +40,13 @@ const CondaCard = (props: any) => {
       </Card.Body>
       <Card.Footer>
         <ButtonToolbar className="mb-2 ml-5 mr-5 justify-content-between">
-          <Button variant="primary" onClick={ (e) => props.handleEditEnvClick(e) }>
+          <Button
+            variant="primary"
+            onClick={(e) => {
+              props.handleEditEnvClick(e);
+              props.handleBuildClick(props.envInfo.spec_sha256);
+            }}
+          >
             <FontAwesomeIcon icon={faEdit} /> Edit
           </Button>{' '}
           <Button variant="outline-primary">
@@ -48,10 +54,13 @@ const CondaCard = (props: any) => {
           </Button>{' '}
         </ButtonToolbar>
         <ButtonToolbar className="mb-2 ml-5 mr-5 justify-content-between">
-          <Button variant="info" onClick={ (e) => props.handleInfoClick(e) }>
+          <Button variant="info" onClick={(e) => props.handleInfoClick(e)}>
             <FontAwesomeIcon icon={faInfoCircle} /> Info
           </Button>{' '}
-          <Button variant="secondary" onClick={ (e) => props.handleImageClick(e) }>
+          <Button
+            variant="secondary"
+            onClick={(e) => props.handleImageClick(e)}
+          >
             <FontAwesomeIcon icon={faFileArchive} /> Images
           </Button>{' '}
         </ButtonToolbar>
