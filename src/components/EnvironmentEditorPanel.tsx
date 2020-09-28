@@ -5,25 +5,45 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
+import yaml from 'js-yaml';
+import Jumbotron from 'react-bootstrap/Jumbotron';
+import '../../style/enveditpanel.css';
 
 const EnvironmentEditorPanel = (props: any) => {
   const [environmentData, setEnvironmentData] = useState(null);
+  const [environmentYaml, setEnvironmentYaml] = useState(null); 
+  
+
+
   useEffect(() => {
     const getEnvironmentEditorData = async () => {
       const response = await fetch(props.url + props.hash);
       const jsondata = await response.json();
-      console.log(jsondata);
       setEnvironmentData(jsondata);
+      setEnvironmentYaml(yaml.safeLoad(JSON.stringify(jsondata.spec)))
     };
-    console.log(environmentData);
     getEnvironmentEditorData();
-  }, []);
-  return (
-    <div>
+  },[]);
+
+  useEffect(() => {
+	  console.log(environmentData);
+  }, [environmentData]); 
+      return (
+    <div style={{ marginTop: '2rem'}} >
       <Container fluid className="my-auto">
+     {environmentData ?
+      <Jumbotron>
+	      <h3> { environmentData.name } 
+		      <small className="text-muted">Build Number: { environmentData.num_builds }
+			      </small></h3>
+	     <h6> Created On: { environmentData.created_on } </h6>
+	      <h6> Filepath: { environmentData.filename } </h6>
+      </Jumbotron> : null }
       <Row className="justify-content-center align-items-center">
         <Col xs={9}>
-          <TextEditor yaml_spec={JSON.stringify(environmentData) || null} />
+		{ environmentData ?
+		<TextEditor yaml_spec={ yaml.safeDump(environmentYaml) }/> : <TextEditor />
+			}
         </Col>
         <Col xs={3}>
           <Table striped bordered hover>
@@ -42,7 +62,6 @@ const EnvironmentEditorPanel = (props: any) => {
                 : null}
             </tbody>
           </Table>
-          <br />
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -61,6 +80,8 @@ const EnvironmentEditorPanel = (props: any) => {
           </Table>
         </Col>
       </Row>
+	      <div style={{ marginTop: '1rem'}}>
+<Row className="justify-content-center align-items-center">
       <Button onClick={(e) => props.handleCancelClick(e)} variant="primary">
         {' '}
         Validate{' '}
@@ -69,6 +90,8 @@ const EnvironmentEditorPanel = (props: any) => {
         {' '}
         Submit{' '}
       </Button>
+	      </Row>
+		      </div>
 	    </Container>
     </div>
   );

@@ -18,7 +18,7 @@ const TextEditor = (props: any) => {
       onChange={onChange}
       name="UNIQUE_ID_OF_DIV"
       value={props.yaml_spec}
-      editorProps={{ $blockScrolling: true }}
+      editorProps={{  }}
       setOptions={{
         enableBasicAutocompletion: true,
         enableLiveAutocompletion: true,
