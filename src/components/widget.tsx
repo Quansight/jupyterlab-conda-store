@@ -11,6 +11,7 @@ import BackendSelector from './backendSelector';
 import CardGroupComponent from './CardGroup';
 import EnvironmentEditorPanel from './EnvironmentEditorPanel';
 import BuildInformationPanel from './BuildInformationPanel';
+import ImageDownloadModal from './ImageDownloadModal';
 
 /**
  * The main widget. Server Data will be queried from some settings, maybe?
@@ -20,7 +21,7 @@ const HomeArea = () => {
   const [toggleEnvironment, setToggleEnvironment] = useState(false); // Show/Hide the Env Edit Panel
   const [toggleInfo, setToggleInfo] = useState(false);
   const [toggleCondaCards, setToggleCondaCards] = useState(true);
-  const [toggleImage, setToggleImage] = useState(false);
+  const [toggleImageDl, setToggleImageDl] = useState(false);
   const [environmentHash, setEnvironmentHash] = useState('');
 
   const servers = [
@@ -73,25 +74,35 @@ const HomeArea = () => {
    */
   function handleImageClick(e: any) {
     e.preventDefault(); //Prevent a reload
-    setToggleImage(true);
+    setToggleImageDl(true);
   }
+
+  function handleImageCancel(e: any) {
+    e.preventDefault(); //Prevent a reload
+    setToggleImageDl(false);
+  }
+
 
   /*
    * Handles a "Cancel"
    */
   function handleCancel(e: any) {
     e.preventDefault();
-    setToggleImage(false);
+    setToggleImageDl(false);
     setToggleInfo(false);
     setToggleEnvironment(false);
     setToggleCondaCards(true);
   }
 
+
   return (
     <div>
       {serverAddress ? (
         <div>
-          <NavBar />
+	<NavBar
+		handleHome={handleCancel}
+	      	server_name={servers[0].display_name}
+		/>
           <Container fluid style={{ height: '100vh' }}>
             {toggleCondaCards ? (
               <Row
@@ -127,7 +138,12 @@ const HomeArea = () => {
                 />
               </div>
             ) : null}
-            {toggleImage ? <div></div> : null}
+		      {toggleImageDl ? <div>
+			      <ImageDownloadModal
+				      show={toggleImageDl}
+				      handleClose={handleImageCancel}
+				      />
+			      </div> : null}
           </Container>
         </div>
       ) : (
