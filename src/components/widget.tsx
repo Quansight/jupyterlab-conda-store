@@ -10,6 +10,7 @@ import '../../style/widget.css';
 import BackendSelector from './backendSelector';
 import CardGroupComponent from './CardGroup';
 import EnvironmentEditorPanel from './EnvironmentEditorPanel';
+import BuildInformationPanel from './BuildInformationPanel';
 
 /**
  * The main widget. Server Data will be queried from some settings, maybe?
@@ -63,6 +64,7 @@ const HomeArea = () => {
   function handleInfoClick(e: any) {
     e.preventDefault(); //Prevent a reload
     setToggleInfo(true); //
+    setToggleCondaCards(false); 
   }
 
   /*
@@ -116,7 +118,9 @@ const HomeArea = () => {
                 />
               </div>
             ) : null}
-            {toggleInfo ? <div></div> : null}
+	    {toggleInfo ? <div>
+			<BuildInformationPanel />
+			      </div> : null}
             {toggleImage ? <div></div> : null}
           </Container>
         </div>
