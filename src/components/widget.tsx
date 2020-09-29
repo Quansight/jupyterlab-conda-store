@@ -25,9 +25,10 @@ const HomeArea = () => {
 
   const servers = [
     {
-      display_name: 'Localhost',
+      display_name: 'Local Filesystem',
       url: 'http://localhost:5001/api/v1/environment/',
       url_specification: 'http://localhost:5001/api/v1/specification/',
+      url_build: 'http://localhost:5001/api/v1/build/',
     },
     {},
   ];
@@ -64,7 +65,7 @@ const HomeArea = () => {
   function handleInfoClick(e: any) {
     e.preventDefault(); //Prevent a reload
     setToggleInfo(true); //
-    setToggleCondaCards(false); 
+    setToggleCondaCards(false);
   }
 
   /*
@@ -118,9 +119,14 @@ const HomeArea = () => {
                 />
               </div>
             ) : null}
-	    {toggleInfo ? <div>
-			<BuildInformationPanel />
-			      </div> : null}
+            {toggleInfo ? (
+              <div>
+                <BuildInformationPanel
+                  url={servers[0].url_build}
+                  build_no="1"
+                />
+              </div>
+            ) : null}
             {toggleImage ? <div></div> : null}
           </Container>
         </div>
