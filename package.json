@@ -7,9 +7,9 @@
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/my_name/myextension",
+  "homepage": "https://github.com/Quansight/jupyterlab-conda-store",
   "bugs": {
-    "url": "https://github.com/my_name/myextension/issues"
+    "url": "https://github.com/Quansight/jupyterlab-conda-store/issues"
   },
   "license": "BSD-3-Clause",
   "author": "Anirrudh Krishnan",
