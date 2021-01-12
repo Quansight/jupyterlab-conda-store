@@ -1,0 +1,8 @@
+name: condastoreExt
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - jupyterlab=3.0.0
+  - jupyter-packaging

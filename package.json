@@ -65,7 +65,8 @@
     "style/*.css"
   ],
   "jupyterlab": {
-    "extension": true
+    "extension": true,
+    "outputDir": "condastore_app/cslabextension"
   },
   "directories": {
     "lib": "lib"
